@@ -2,8 +2,12 @@
 using namespace std;
 
 int main(){
-    ifstream input;
-    input.open("Sample_Tours/rnoneuc_100");
+    vector<string> file_name = {"reuc_100","rnoneuc_100","reuc_250","rnoneuc_250","reuc_500","rnoneuc_500"};
+    vector<int> iterate = {550,550,14,14,1,1};
+    for(int test=0;test<6;test++)
+    {
+        ifstream input;
+    input.open("Sample_Tours/"+file_name[test]);
     //input.open("Sample_Tours/samInp");
     ofstream ofile;
     ofile.open("sample.txt", ios::trunc | ios::out | ios::in);
@@ -161,8 +165,10 @@ int main(){
     vector<int> tempVNode;
 
     //Iterate with l ants placed at random nodes
-    for(int itr=0;itr<100;itr++){
-        cout<<"itr : "<<itr<<endl;
+    //For N=100,itr<550
+    //For N=250,itr<15
+    for(int itr=0;itr<iterate[test];itr++){
+        //cout<<"itr : "<<itr<<endl;
         startAnt.clear();
         //Atleast 20% of ant placed
         //l = (rand()%(N) + (0.2*N) + 1);
@@ -310,30 +316,30 @@ int main(){
             //     }
             //     cout<<endl;
             // }
-            int minPathVisit = min_element(Lk.begin(),Lk.end())-Lk.begin();
-            cout<<"VisitedNode : ";
-            for(int j=0;j<VisitedNode[minPathVisit].size();j++){
-                    cout<<VisitedNode[minPathVisit][j]<<" ";
-                }
-                cout<<endl;
-                cout<<"Path Distance : "<<Lk[minPathVisit]<<endl;
-                cout<<endl;
+             int minPathVisit = min_element(Lk.begin(),Lk.end())-Lk.begin();
+            // cout<<"VisitedNode : ";
+            // for(int j=0;j<VisitedNode[minPathVisit].size();j++){
+            //         cout<<VisitedNode[minPathVisit][j]<<" ";
+            //     }
+            //     cout<<endl;
+            //     cout<<"Path Distance : "<<Lk[minPathVisit]<<endl;
+            //     cout<<endl;
                 FinalVisitedNode.push_back(VisitedNode[minPathVisit]);
                 FinalLk.push_back(Lk[minPathVisit]);
         VisitedNode.clear();
         Lk.clear();
     }
     //----------------------------->Evaluation Result
-    cout<<"----------------------------- FINAL EVALUATION RESULT -----------------------------\n\n";
-    cout<<"Initial Path : "<<endl;
-    int maxPathVisit = max_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
-            cout<<"VisitedNode : ";
-            for(int j=0;j<FinalVisitedNode[maxPathVisit].size();j++){
-                    cout<<FinalVisitedNode[maxPathVisit][j]<<" ";
-                }
-                cout<<endl;
-                cout<<"Path Distance : "<<FinalLk[maxPathVisit]<<endl;
-                cout<<endl;
+    cout<<"----------------------------- EVALUATION RESULT - "<<file_name[test]<<" -----------------------------\n\n";
+    // cout<<"Initial Path : "<<endl;
+    // int maxPathVisit = max_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
+    //         cout<<"VisitedNode : ";
+    //         for(int j=0;j<FinalVisitedNode[maxPathVisit].size();j++){
+    //                 cout<<FinalVisitedNode[maxPathVisit][j]<<" ";
+    //             }
+    //             cout<<endl;
+    //             cout<<"Path Distance : "<<FinalLk[maxPathVisit]<<endl;
+    //             cout<<endl;
 
     cout<<"Final Efficient Path : "<<endl;
     int minPathVisit = min_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
@@ -344,7 +350,7 @@ int main(){
                 cout<<endl;
                 cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
                 cout<<endl;
-    cout<<"\n\n----------------------------- FINAL EVALUATION RESULT -----------------------------\n";
+    // cout<<"\n\n----------------------------- FINAL EVALUATION RESULT -----------------------------\n";
     //----------------------------->Find Current Best Path
     // double distSum = 0;
     // int ind1=0,ind2;
@@ -374,6 +380,7 @@ int main(){
     // }
     // cout<<endl;
     //ITERATIONS
+    }
     
     return 0;
 }
