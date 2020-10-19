@@ -3,7 +3,7 @@ using namespace std;
 
 int main(){
     ifstream input;
-    input.open("Sample_Tours/reuc_100");
+    input.open("Sample_Tours/rnoneuc_100");
     //input.open("Sample_Tours/samInp");
     ofstream ofile;
     ofile.open("sample.txt", ios::trunc | ios::out | ios::in);
@@ -161,7 +161,7 @@ int main(){
     vector<int> tempVNode;
 
     //Iterate with l ants placed at random nodes
-    for(int itr=0;itr<500;itr++){
+    for(int itr=0;itr<100;itr++){
         cout<<"itr : "<<itr<<endl;
         startAnt.clear();
         //Atleast 20% of ant placed
@@ -290,6 +290,14 @@ int main(){
             // }
 
             //Pheromone Intensity 
+            //reduce evaporated pheromone trail
+            for(int i=0;i<pheromoneTrail.size();i++){
+                for(int j=0;j<pheromoneTrail[i].size();j++){
+                    pheromoneTrail[i][j] -= 0.2*pheromoneTrail[i][j];
+                }
+            }
+
+            //
             for(int i=0;i<VisitedNode.size();i++){
                 for(int j=0;j<VisitedNode[i].size();j++){
                     pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]] = pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]] + (1/Lk[i]);
