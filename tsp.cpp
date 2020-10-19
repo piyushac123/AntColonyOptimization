@@ -116,17 +116,21 @@ int main(){
     ofile.close();
 
     //INITIALIZATION
-    int l = 2;
-    vector<double> Lk,probability,cumulativeProb;
+    int l;
+    vector<double> Lk, FinalLk, probability,cumulativeProb;
     Lk.clear();probability.clear();cumulativeProb.clear();
 
     vector<vector<double>> pheromoneTrail;
     pheromoneTrail.clear();
-    vector<int> VisitedNode;
+    vector<vector<int>> VisitedNode, FinalVisitedNode;
     for(int i=0;i<N;i++){
         vector<double> temp;
         for(int j=0;j<N;j++){
-            temp.push_back(1);
+            //No edge between same node
+            if(i == j){
+                temp.push_back(0);continue;
+            }
+            temp.push_back(0.01);
         }
         pheromoneTrail.push_back(temp);
     }
@@ -149,21 +153,33 @@ int main(){
     
     vector<int> startAnt;
     int key;
-    while(startAnt.size() != l){
-        key = rand()%l;
-        //cout<<key<<endl;
-        if(!count(startAnt.begin(),startAnt.end(),key)){
-            startAnt.push_back(key);
-        }
-    }
+    
     vector<int> observedNode;
     //cout<<startAnt.size()<<endl;
     int length = 0,index,index1;
     double sumD;
-    for(int k=0;k<startAnt.size();k++){
-        VisitedNode.clear();
+    vector<int> tempVNode;
+
+    //Iterate with l ants placed at random nodes
+    for(int itr=0;itr<500;itr++){
+        cout<<"itr : "<<itr<<endl;
+        startAnt.clear();
+        //Atleast 20% of ant placed
+        //l = (rand()%(N) + (0.2*N) + 1);
+        l = rand()%(N);
+        if(l<(0.2*N)) l += 0.2*N;
+        else if(l>(0.5*N)) l -= 0.3*N;
+        while(startAnt.size() != l){
+            key = rand()%l;
+            //cout<<key<<endl;
+            if(!count(startAnt.begin(),startAnt.end(),key)){
+                startAnt.push_back(key);
+            }
+        }
+        for(int k=0;k<startAnt.size();k++){
+        tempVNode.clear();
             index = startAnt[k];
-            VisitedNode.push_back(index);
+            tempVNode.push_back(index);
             length = 0;
             for(int i=0;i<distance.size()-1;i++){
                 //cout<<"i : "<<i<<endl;
@@ -171,7 +187,7 @@ int main(){
                 // sum = accumulate(distance[index].begin(),distance[index].end(),0);
                 //Calculate Divide Sum Probability
                 for(int j=0;j<distance[index].size();j++){
-                    if(!count(VisitedNode.begin(),VisitedNode.end(),j)){
+                    if(!count(tempVNode.begin(),tempVNode.end(),j)){
                         sumD += (pheromoneTrail[index][j]/distance[index][j]);
                     }
                     
@@ -179,7 +195,7 @@ int main(){
                 //cout<<sumD<<endl;
                 //Calculate Probability - make zero
                 for(int j=0;j<distance[index].size();j++){
-                    if(!count(VisitedNode.begin(),VisitedNode.end(),j)){
+                    if(!count(tempVNode.begin(),tempVNode.end(),j)){
                         probability.push_back((pheromoneTrail[index][j]/distance[index][j])/sumD);
                         observedNode.push_back(j);
                     }
@@ -207,27 +223,29 @@ int main(){
                 //cout<<"FinalProb : "<<fProb<<endl;
                 //New visited node
                 // cout<<probability.size()<<endl;
+                
                 // cout<<"Probability : ";
                 // for(int m=0;m<probability.size();m++){
                 //     cout<<probability[m]<<" ";
                 // }
                 // cout<<endl;
-                // cout<<cumulativeProb.size()<<endl;
                 // cout<<"Cumulative : ";
                 // for(int m=0;m<cumulativeProb.size();m++){
                 //     cout<<cumulativeProb[m]<<" ";
                 // }
                 // cout<<endl;
+
                 if(probability.size()){
                     //index1 = observedNode[max_element(probability.begin(),probability.end())-probability.begin()];
                     index1 = observedNode[fProb];
                     length += distance[index][index1];//sum of length of path
                     index = index1;
-                    VisitedNode.push_back(index);
+                    tempVNode.push_back(index);
                 }
                 probability.clear();
                 observedNode.clear();
                 cumulativeProb.clear();
+                
                 // cout<<"VisitedNode : ";
                 // for(int i=0;i<VisitedNode.size();i++){
                 //     cout<<VisitedNode[i]<<" ";
@@ -236,38 +254,99 @@ int main(){
                 // cout<<VisitedNode.size()<<" "<<length<<endl;
                 // cout<<endl;
             }
-            // cout<<length<<endl;
-            Lk.push_back(length+distance[VisitedNode[0]][VisitedNode[VisitedNode.size()-1]]);
-
-// <----------------------------- PHEROMONE INTENSITY REMAINING -------------------------------------------->
-            
-            //Pheromone Intensity 
-            sum = 0;
-            for(int p=0;p<Lk.size();p++){
-                //Add only if ant k travels from here
-                //Find edge from which it travelled and only add to that edge
-                sum += (1/Lk[p]);
+            //Path with only N nodes
+            if(tempVNode.size() == N){
+                VisitedNode.push_back(tempVNode);
+                // cout<<length<<endl;
+                Lk.push_back(length+distance[tempVNode[0]][tempVNode[tempVNode.size()-1]]);
             }
-            for(int p=0;p<pheromoneTrail.size();p++){
-                for(int q=0;q<pheromoneTrail[p].size();q++){
-                    if(distance[p][q]){
+            
 
-                    }
+
+
+            // cout<<"VisitedNode : ";
+            // for(int i=0;i<VisitedNode.size();i++){
+            //     cout<<VisitedNode[i]<<" ";
+            // }
+            // cout<<endl;
+            // cout<<VisitedNode.size()<<endl;
+    }
+    // <----------------------------- PHEROMONE INTENSITY REMAINING -------------------------------------------->
+            
+            
+            // sum = 0;
+            // for(int p=0;p<Lk.size();p++){
+            //     //Add only if ant k travels from here
+            //     //Find edge from which it travelled and only add to that edge
+            //     sum += (1/Lk[p]);
+            // }
+
+            //Add Evaporation Factor
+            // for(int i=0;i<VisitedNode.size();i++){
+            //     for(int j=0;j<VisitedNode[i].size();j++){
+            //         pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]] = 0.2*pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]];
+            //         pheromoneTrail[VisitedNode[i][(j+1)%N]][VisitedNode[i][j]] = pheromoneTrail[VisitedNode[i][(j+1)%N]][VisitedNode[i][j]];
+            //     }
+            // }
+
+            //Pheromone Intensity 
+            for(int i=0;i<VisitedNode.size();i++){
+                for(int j=0;j<VisitedNode[i].size();j++){
+                    pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]] = pheromoneTrail[VisitedNode[i][j]][VisitedNode[i][(j+1)%N]] + (1/Lk[i]);
+                    pheromoneTrail[VisitedNode[i][(j+1)%N]][VisitedNode[i][j]] = pheromoneTrail[VisitedNode[i][(j+1)%N]][VisitedNode[i][j]] + (1/Lk[i]);
                 }
             }
-
+            // for(int p=0;p<pheromoneTrail.size();p++){
+            //     for(int q=0;q<pheromoneTrail[p].size();q++){
+            //         cout<<pheromoneTrail[p][q]<<" ";
+            //     }
+            //     cout<<endl;
+            // }
+            int minPathVisit = min_element(Lk.begin(),Lk.end())-Lk.begin();
             cout<<"VisitedNode : ";
-            for(int i=0;i<VisitedNode.size();i++){
-                cout<<VisitedNode[i]<<" ";
-            }
-            cout<<endl;
-            cout<<VisitedNode.size()<<endl;
+            for(int j=0;j<VisitedNode[minPathVisit].size();j++){
+                    cout<<VisitedNode[minPathVisit][j]<<" ";
+                }
+                cout<<endl;
+                cout<<"Path Distance : "<<Lk[minPathVisit]<<endl;
+                cout<<endl;
+                FinalVisitedNode.push_back(VisitedNode[minPathVisit]);
+                FinalLk.push_back(Lk[minPathVisit]);
+        VisitedNode.clear();
+        Lk.clear();
     }
-    cout<<"Length : ";
-    for(int i=0;i<Lk.size();i++){
-        cout<<Lk[i]<<" ";
-    }
-    cout<<endl;
+    //----------------------------->Evaluation Result
+    cout<<"----------------------------- FINAL EVALUATION RESULT -----------------------------\n\n";
+    cout<<"Initial Path : "<<endl;
+    int maxPathVisit = max_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
+            cout<<"VisitedNode : ";
+            for(int j=0;j<FinalVisitedNode[maxPathVisit].size();j++){
+                    cout<<FinalVisitedNode[maxPathVisit][j]<<" ";
+                }
+                cout<<endl;
+                cout<<"Path Distance : "<<FinalLk[maxPathVisit]<<endl;
+                cout<<endl;
+
+    cout<<"Final Efficient Path : "<<endl;
+    int minPathVisit = min_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
+            cout<<"VisitedNode : ";
+            for(int j=0;j<FinalVisitedNode[minPathVisit].size();j++){
+                    cout<<FinalVisitedNode[minPathVisit][j]<<" ";
+                }
+                cout<<endl;
+                cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
+                cout<<endl;
+    cout<<"\n\n----------------------------- FINAL EVALUATION RESULT -----------------------------\n";
+    //----------------------------->Find Current Best Path
+    // double distSum = 0;
+    // int ind1=0,ind2;
+    // for(int i=0;i<pheromoneTrail.size();i++){
+    //     cout<<"Pheromenone : "<<*max_element(pheromoneTrail[i].begin(),pheromoneTrail[i].end())<<" index : "<<(max_element(pheromoneTrail[i].begin(),pheromoneTrail[i].end())-pheromoneTrail[i].begin())<<endl;
+    //     cout<<"Distance : "<<distance[i][(max_element(pheromoneTrail[i].begin(),pheromoneTrail[i].end())-pheromoneTrail[i].begin())]<<endl;
+    //     distSum += distance[i][(max_element(pheromoneTrail[i].begin(),pheromoneTrail[i].end())-pheromoneTrail[i].begin())];
+    // }
+    // cout<<"Distance : "<<fixed<<setprecision(10)<<distSum<<endl;
+    
     // sort(VisitedNode.begin(),VisitedNode.end());
     // cout<<"VisitedNode : ";
     //         for(int i=0;i<VisitedNode.size();i++){
