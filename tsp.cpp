@@ -390,12 +390,12 @@ int main(){
 
     // cout<<"Final Efficient Path : "<<endl;
     int minPathVisit = min_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
-             cout<<"VisitedNode : ";
+             //cout<<"VisitedNode : ";
             for(int j=0;j<FinalVisitedNode[minPathVisit].size();j++){
                     cout<<FinalVisitedNode[minPathVisit][j]<<" ";
                 }
                 cout<<endl;
-                 cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
+                 //cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
                 // cout<<endl;
     // cout<<"\n\n----------------------------- FINAL EVALUATION RESULT -----------------------------\n";
     //----------------------------->Find Current Best Path
