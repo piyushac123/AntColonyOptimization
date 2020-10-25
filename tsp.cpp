@@ -2,95 +2,89 @@
 using namespace std;
 
 int main(){
-    vector<string> file_name = {"reuc_100","rnoneuc_100","reuc_250","rnoneuc_250","reuc_500","rnoneuc_500"};
-    vector<int> iterate = {550,550,14,14,1,1};
-    for(int test=0;test<6;test++)
-    {
-        ifstream input;
-    input.open("Sample_Tours/"+file_name[test]);
-    //input.open("Sample_Tours/samInp");
-    ofstream ofile;
-    ofile.open("sample.txt", ios::trunc | ios::out | ios::in);
-    string line;
-    int euclidean,N;
-    vector<vector<double>> coordinate,distance;
-    // vector<vector<long long int>> coordinate;
-    long long int flag = 0,sum = 0,cnt = 0,flag1 = 0,cnt1 = 1;
-    while(input){
-        if(cnt1>N) flag = 3;
-        getline(input,line);
-        if(line.length()){
-        if(flag == 0){
-            if(line == "euclidean") euclidean = 1;
-            else euclidean = 0;
-            //cout<<euclidean<<endl;
-            flag = 1;
-        }
-        else if(flag == 1){
-            N = 0;
-            for(auto x:line){
-                N = (N*10)+((int)x-48);
-                if(x == ' ') break;
-            }
-            //cout<<N<<endl;
-            flag = 2;
-        }
-        else if(flag == 2){
-            cnt1++;
-            sum = 0;cnt = 0;flag1 = 0;
-             vector<double> vec;
-            //vector<long long int> vec;
-            for(auto x:line){
+    //vector<string> file_name = {"reuc_100","rnoneuc_100","reuc_250","rnoneuc_250","reuc_500","rnoneuc_500"};
+    //vector<int> iterate = {550,550,14,14,1,1};
+        //ifstream input;
+    // input.open("Sample_Tours/"+file_name[test]);
+    // //input.open("Sample_Tours/samInp");
+    // ofstream ofile;
+    // ofile.open("sample.txt", ios::trunc | ios::out | ios::in);
+     string line;
+     int euclidean,N;
+     vector<vector<double>> coordinate,distance;
+    // // vector<vector<long long int>> coordinate;
+     long long int flag = 0,sum = 0,cnt = 0,flag1 = 0,cnt1 = 1;
+    // while(input){
+    //     if(cnt1>N) flag = 3;
+    //     getline(input,line);
+    //     if(line.length()){
+    //     if(flag == 0){
+    //         if(line == "euclidean") euclidean = 1;
+    //         else euclidean = 0;
+    //         //cout<<euclidean<<endl;
+    //         flag = 1;
+    //     }
+    //     else if(flag == 1){
+    //         N = 0;
+    //         for(auto x:line){
+    //             N = (N*10)+((int)x-48);
+    //             if(x == ' ') break;
+    //         }
+    //         //cout<<N<<endl;
+    //         flag = 2;
+    //     }
+    //     else if(flag == 2){
+    //         cnt1++;
+    //         sum = 0;cnt = 0;flag1 = 0;
+    //          vector<double> vec;
+    //         //vector<long long int> vec;
+    //         for(auto x:line){
                 
-                if(x == ' '){
-                    //cout<<sum<<" "<<cnt<<endl;
-                    vec.push_back(sum*pow(0.1,cnt));
-                    ofile<<cnt<<" ";
-                    //vec.push_back((sum*10000)+cnt);
-                    sum = 0;
-                    cnt = 0;
-                    flag1 = 0;
-                }
-                else if(x == '.') flag1 = 1;
-                else{
-                    sum = (sum*10)+((int)x-48);
-                    if(flag1) cnt++;
-                }
-            }
-            vec.push_back(sum*pow(0.1,cnt));
-            ofile<<cnt<<endl;
-            //vec.push_back((sum*1000)+cnt);
-            coordinate.push_back(vec);
-        }
-        else if(flag == 3){
-            sum = 0;cnt = 0;flag1 = 0;
-             vector<double> vec;
-            //vector<long long int> vec;
-            for(auto x:line){
+    //             if(x == ' '){
+    //                 //cout<<sum<<" "<<cnt<<endl;
+    //                 vec.push_back(sum*pow(0.1,cnt));
+    //                 //vec.push_back((sum*10000)+cnt);
+    //                 sum = 0;
+    //                 cnt = 0;
+    //                 flag1 = 0;
+    //             }
+    //             else if(x == '.') flag1 = 1;
+    //             else{
+    //                 sum = (sum*10)+((int)x-48);
+    //                 if(flag1) cnt++;
+    //             }
+    //         }
+    //         vec.push_back(sum*pow(0.1,cnt));
+    //         //vec.push_back((sum*1000)+cnt);
+    //         coordinate.push_back(vec);
+    //     }
+    //     else if(flag == 3){
+    //         sum = 0;cnt = 0;flag1 = 0;
+    //          vector<double> vec;
+    //         //vector<long long int> vec;
+    //         for(auto x:line){
                 
-                if(x == ' '){
-                    //cout<<sum<<" "<<cnt<<endl;
-                    vec.push_back(sum*pow(0.1,cnt));
-                    ofile<<cnt<<" ";
-                    //vec.push_back((sum*10000)+cnt);
-                    sum = 0;
-                    cnt = 0;
-                    flag1 = 0;
-                }
-                else if(x == '.') flag1 = 1;
-                else{
-                    sum = (sum*10)+((int)x-48);
-                    if(flag1) cnt++;
-                }
-            }
-            vec.push_back(sum*pow(0.1,cnt));
-            ofile<<cnt<<endl;
-            //vec.push_back((sum*1000)+cnt);
-            distance.push_back(vec);
-        }
-        }
-    }
-    input.close();
+    //             if(x == ' '){
+    //                 //cout<<sum<<" "<<cnt<<endl;
+    //                 vec.push_back(sum*pow(0.1,cnt));
+    //                 //vec.push_back((sum*10000)+cnt);
+    //                 sum = 0;
+    //                 cnt = 0;
+    //                 flag1 = 0;
+    //             }
+    //             else if(x == '.') flag1 = 1;
+    //             else{
+    //                 sum = (sum*10)+((int)x-48);
+    //                 if(flag1) cnt++;
+    //             }
+    //         }
+    //         vec.push_back(sum*pow(0.1,cnt));
+    //         //vec.push_back((sum*1000)+cnt);
+    //         distance.push_back(vec);
+    //     }
+    //     }
+    // }
+    // input.close();
 
     
     // for(int j=0;j<coordinate[0].size();j++){
@@ -117,7 +111,37 @@ int main(){
     //     }
     //     cout<<endl;
     // }
-    ofile.close();
+    //ofile.close();
+
+    getline(cin,line);
+    if(line == "euclidean") euclidean = 1;
+    else euclidean = 0;
+
+    cin>>N;
+    double t1,t3;
+    for(int i=0;i<N;i++){
+        vector<double> t2;
+            cin>>t1>>t3;
+            t2.push_back(t1);
+            t2.push_back(t3);
+        coordinate.push_back(t2);
+    }
+    for(int i=0;i<N;i++){
+        vector<double> t2;
+        double tt;
+        for(int j=0;j<N;j++){
+            cin>>tt;
+            t2.push_back(tt);
+        }
+        distance.push_back(t2);
+    }
+    // cout<<euclidean<<" "<<N<<endl;
+    // cout<<coordinate[0][0]<<" "<<coordinate[0][1]<<endl;
+    // for(int j=0;j<N;j++){
+    //     cout<<distance[0][j]<<" ";
+    // }
+    // cout<<endl;
+
 
     //INITIALIZATION
     int l;
@@ -167,7 +191,11 @@ int main(){
     //Iterate with l ants placed at random nodes
     //For N=100,itr<550
     //For N=250,itr<15
-    for(int itr=0;itr<iterate[test];itr++){
+    int iterate;
+    if(N == 100) iterate = 545;
+    else if(N == 250) iterate = 14;
+    else if (N == 500) iterate = 1;
+    for(int itr=0;itr<iterate;itr++){
         //cout<<"itr : "<<itr<<endl;
         startAnt.clear();
         //Atleast 20% of ant placed
@@ -218,13 +246,18 @@ int main(){
 
                 //Randomly choose neighbour with some probability
                 double finalProb = (double) rand()/RAND_MAX;
-                int fProb;
-                //cout<<"FinalProb : "<<finalProb<<endl;
+                int fProb=-1;
+                //cout<<"FinalProb : ";
                 for(int j=1;j<cumulativeProb.size();j++){
                     if(finalProb>cumulativeProb[j]){
+                        //cout<<"Gone"<<endl;
                         fProb = j-1;
                         break;
                     }
+                }
+                if(fProb == -1){
+                    if(cumulativeProb.size() == 1) fProb = 0;
+                    else fProb = cumulativeProb.size()-1;
                 }
                 //cout<<"FinalProb : "<<fProb<<endl;
                 //New visited node
@@ -235,15 +268,22 @@ int main(){
                 //     cout<<probability[m]<<" ";
                 // }
                 // cout<<endl;
-                // cout<<"Cumulative : ";
+                // cout<<"Cumulative probability : ";
                 // for(int m=0;m<cumulativeProb.size();m++){
                 //     cout<<cumulativeProb[m]<<" ";
+                // }
+                // cout<<endl;
+                // cout<<"Observed node : ";
+                // for(int m=0;m<observedNode.size();m++){
+                //     cout<<observedNode[m]<<" ";
                 // }
                 // cout<<endl;
 
                 if(probability.size()){
                     //index1 = observedNode[max_element(probability.begin(),probability.end())-probability.begin()];
+                    //cout<<fProb<<endl;
                     index1 = observedNode[fProb];
+                    //cout<<index1<<endl;
                     length += distance[index][index1];//sum of length of path
                     index = index1;
                     tempVNode.push_back(index);
@@ -261,7 +301,14 @@ int main(){
                 // cout<<endl;
             }
             //Path with only N nodes
+            
             if(tempVNode.size() == N){
+                //cout<<tempVNode.size()<<endl;
+            //sort(tempVNode.begin(),tempVNode.end());
+            // for(int j=0;j<tempVNode.size();j++){
+            //         cout<<tempVNode[j]<<" ";
+            //     }
+            //     cout<<endl;
                 VisitedNode.push_back(tempVNode);
                 // cout<<length<<endl;
                 Lk.push_back(length+distance[tempVNode[0]][tempVNode[tempVNode.size()-1]]);
@@ -299,7 +346,7 @@ int main(){
             //reduce evaporated pheromone trail
             for(int i=0;i<pheromoneTrail.size();i++){
                 for(int j=0;j<pheromoneTrail[i].size();j++){
-                    pheromoneTrail[i][j] -= 0.2*pheromoneTrail[i][j];
+                    pheromoneTrail[i][j] -= 0.5*pheromoneTrail[i][j];
                 }
             }
 
@@ -330,7 +377,7 @@ int main(){
         Lk.clear();
     }
     //----------------------------->Evaluation Result
-    cout<<"----------------------------- EVALUATION RESULT - "<<file_name[test]<<" -----------------------------\n\n";
+    // cout<<"----------------------------- EVALUATION RESULT ------------------------------\n\n";
     // cout<<"Initial Path : "<<endl;
     // int maxPathVisit = max_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
     //         cout<<"VisitedNode : ";
@@ -341,15 +388,15 @@ int main(){
     //             cout<<"Path Distance : "<<FinalLk[maxPathVisit]<<endl;
     //             cout<<endl;
 
-    cout<<"Final Efficient Path : "<<endl;
+    // cout<<"Final Efficient Path : "<<endl;
     int minPathVisit = min_element(FinalLk.begin(),FinalLk.end())-FinalLk.begin();
-            cout<<"VisitedNode : ";
+             cout<<"VisitedNode : ";
             for(int j=0;j<FinalVisitedNode[minPathVisit].size();j++){
                     cout<<FinalVisitedNode[minPathVisit][j]<<" ";
                 }
                 cout<<endl;
-                cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
-                cout<<endl;
+                 cout<<"Path Distance : "<<FinalLk[minPathVisit]<<endl;
+                // cout<<endl;
     // cout<<"\n\n----------------------------- FINAL EVALUATION RESULT -----------------------------\n";
     //----------------------------->Find Current Best Path
     // double distSum = 0;
@@ -380,7 +427,6 @@ int main(){
     // }
     // cout<<endl;
     //ITERATIONS
-    }
     
     return 0;
 }
