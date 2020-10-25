@@ -8,46 +8,46 @@ There are two main differences between artificial ants and real ants:
     1) the artificial ants have “memory”; they can remember the cities they have visited and 	therefore they would not select those cities again.
     2) The artificial ants are not completely “blind”; they know the distances between two cities and prefer to choose the nearby cities from their positions.
 
-- Algorithm
+- Algorithm\
 
-ANT COLONY OPTIMIZATION
+ANT COLONY OPTIMIZATION\
 
-INPUT : 
-    i. N – Number of cities
-    ii. distance[N][N] – Distance between any two selected cities
-    iii. Lk[l] – Path distance covered by randomly chosen ‘l’ ants
-    iv. p – Edge selection probability on each city
-    v. τij – Pheromone level corresponding to each edge
+INPUT : \
+    i. N – Number of cities\
+    ii. distance[N][N] – Distance between any two selected cities\
+    iii. Lk[l] – Path distance covered by randomly chosen ‘l’ ants\
+    iv. p – Edge selection probability on each city\
+    v. τij – Pheromone level corresponding to each edge\\
 
-FORMULA :
-    • Pheromone level calculation :
+FORMULA :\
+    • Pheromone level calculation :\
       
 
-  The trail levels are updated as on a tour each ant leaves pheromone quantity given by Q/Lk, where Q is a constant and Lk the length of its tour, respectively. On the other hand, the pheromone will evaporate as the time goes by. 
-      where t is the iteration counter, ρ ϵ [0, 1] the parameter to regulate the reduction of τij, Δτij the total increase of trail level on edge (i, j) and Δτijk the increase of trail level on edge (i, j) caused by ant k, respectively.
+  The trail levels are updated as on a tour each ant leaves pheromone quantity given by Q/Lk, where Q is a constant and Lk the length of its tour, respectively. On the other hand, the pheromone will evaporate as the time goes by. \
+      where t is the iteration counter, ρ ϵ [0, 1] the parameter to regulate the reduction of τij, Δτij the total increase of trail level on edge (i, j) and Δτijk the increase of trail level on edge (i, j) caused by ant k, respectively.\
 
-   • Probability of choosing path :
+   • Probability of choosing path :\
        
        
 
 
 
-where τij is the intensity of pheromone trail between cities i and j, α the parameter to regulate the influence of τij, ηij the visibility of city j from city i, which is always set as 1/dij (dij is the distance between city i and j), β the parameter to regulate the influence of ηij and allowedk the set of cities that have not been visited yet, respectively.
+where τij is the intensity of pheromone trail between cities i and j, α the parameter to regulate the influence of τij, ηij the visibility of city j from city i, which is always set as 1/dij (dij is the distance between city i and j), β the parameter to regulate the influence of ηij and allowedk the set of cities that have not been visited yet, respectively.\
 
 	
-ALGORITHM :
-    i. Intialize Pheromone Trail(τij) for each edge as 0.01.
-    ii. For t = 1 to iteration number do:
-        i. Select ‘l’ ants and randomly place them on given cities.
-        ii. For k = 1 to l do:
-            i. Repeat steps till each city is visited
-                i. Calculate Probability(p) of choosing path based on given formula.
-                ii. Randomly choose path to next possible city.
-                iii. Update Visited city and distance travelled.
-            ii. End
-        iii. End
-        iv. Update Pheromone Trail(τij) based on given formula.
-    iii. End
+ALGORITHM :\
+    i. Intialize Pheromone Trail(τij) for each edge as 0.01.\
+    ii. For t = 1 to iteration number do:\
+        i. Select ‘l’ ants and randomly place them on given cities.\
+        ii. For k = 1 to l do:\
+            i. Repeat steps till each city is visited\
+                i. Calculate Probability(p) of choosing path based on given formula.\
+                ii. Randomly choose path to next possible city.\
+                iii. Update Visited city and distance travelled.\
+            ii. End\
+        iii. End\
+        iv. Update Pheromone Trail(τij) based on given formula.\
+    iii. End\
 
 
 - Pros :
